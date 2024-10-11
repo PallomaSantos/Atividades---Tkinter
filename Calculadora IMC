@@ -1,0 +1,67 @@
+from tkinter import *
+from tkinter import ttk
+
+root = Tk()
+root.title("Calculadora de IMC")
+def calcular (*args): 
+    try:
+        valor_peso = float(peso.get())#entrada
+        valor_altura = float(altura.get())#entrada
+        calculo = valor_peso/(valor_altura**2)#processamento
+        resultado.set(f'{calculo:.2f}')#saída
+
+    except ValueError:
+        pass
+
+def on_entry_click(event, placeholder):
+    
+    if event.widget.get() == placeholder:
+        event.widget.delete(0, "end")  # Remove o placeholder
+        event.widget.config(fg='black')  # Altera a cor do texto para preto
+
+def on_focusout(event, placeholder):
+   
+    if event.widget.get() == '':
+        event.widget.insert(0, placeholder)
+        event.widget.config(fg='grey')  # Altera a cor do texto para cinza
+
+
+
+#Criando a telinha dahora
+mainframe = ttk.Frame(root, padding="3 3 12 12")
+mainframe.grid(column= 0, row= 0, sticky=(N, W, E, S))
+root.columnconfigure (0, weight= 1 )
+root.rowconfigure (0, weight=1 )
+
+#input do peso
+peso = StringVar()
+peso_entrada = Entry(mainframe, width=7, textvariable=peso, fg ="grey")
+peso_entrada.grid (column=1 , row = 3, sticky = (W, E))
+peso_entrada.insert(0, "Peso (kg)")
+peso_entrada.bind("<FocusIn>", lambda event: on_entry_click(event, "Peso (kg)"))
+peso_entrada.bind("<FocusOut>", lambda event: on_focusout(event, "Peso (kg)"))
+#acaba aqui
+
+#input do altura
+altura = StringVar()
+altura_entrada = Entry(mainframe, width=7, textvariable=altura, fg='grey')
+altura_entrada.insert(0, "Altura (m)")  # Placeholder
+altura_entrada.bind("<FocusIn>", lambda event: on_entry_click(event, "Altura (m)"))
+altura_entrada.bind("<FocusOut>", lambda event: on_focusout(event, "Altura (m)"))
+altura_entrada.grid(column=1, row=2, sticky=(W, E))
+
+#acaba aqui
+
+
+resultado = StringVar()
+ttk.Label(mainframe, textvariable=resultado).grid(column=2, row = 3, sticky=(W, E))
+
+ttk.Button(mainframe, text="Calcular", command=calcular).grid(column=3, row= 3, sticky=W)
+
+ttk.Label(mainframe, text='Calculadora de IMC').grid(column= 0, row= 1, columnspan=3, sticky= (W, E))
+ 
+for child in mainframe.winfo_children():
+    child.grid_configure(padx=5, pady = 5)
+peso_entrada.focus()
+root.bind("<Return>", calcular)
+root.mainloop()
