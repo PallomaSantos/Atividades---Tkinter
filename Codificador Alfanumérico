@@ -1,0 +1,45 @@
+from tkinter import *
+from tkinter import ttk
+
+root = Tk()
+root.title("Codificador Alfanumérico")
+
+import random
+
+#código pra criptografar
+def cripto (*args):
+    alfabeto = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    numero = '0123456789'
+    caracterer_especial = "!@#$%^&*()-_+={][},.;:\"'<>?/"
+    contador = 0
+    lista = [alfabeto,numero,caracterer_especial]
+
+    senha = []
+    while contador < 8:
+        straleatoria = random.choice(lista) #ele vai escolher uma das 3 strings 
+        caractere_aleatorio = random.choice(straleatoria) #dps de escolher, ele manda a escolha pra ca e escolhe um elemento da string
+        senha.append(caractere_aleatorio) #adiciona esse elemento a lista
+        contador += 1 #adiciona o contador pra repetir até 8 vezes
+    
+    senha_final = ''.join(senha) #retira as aspas da lista
+    resultado.set(senha_final) #saída, mostrar o resultado no programa
+
+
+#Criando a tela
+mainframe = ttk.Frame(root, padding="3 3 12 12")
+mainframe.grid(column= 0, row= 0, sticky=(N, W, E, S))
+root.columnconfigure (0, weight= 1 )
+root.rowconfigure (0, weight=1 )
+
+
+resultado = StringVar()
+
+#senha
+ttk.Label(mainframe, textvariable=resultado).grid(column=2, row = 2, sticky=(W, E))
+
+#botão gerar
+ttk.Button(mainframe, text="Gerar", command=cripto).grid(column=2, row= 3, sticky=W)
+
+#Nome
+ttk.Label(mainframe, text='Codificador Alfanumérico').grid(column= 0, row= 1, columnspan=3, sticky= (W, E))
+root.mainloop()
